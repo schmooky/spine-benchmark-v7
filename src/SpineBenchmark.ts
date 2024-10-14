@@ -133,15 +133,19 @@ export class SpineBenchmark {
   // UI functions:
   private createAnimationButtons(spineInstance: Spine) {
     const animations = spineInstance.skeleton.data.animations;
-    const container = document.getElementById('sidebarAnimations')!;
+    const container = document.getElementById("optionsAnimations")!;
+    const animationsTitle = document.createElement("h3");
+    animationsTitle.innerText = "animations";
+    container.appendChild(animationsTitle);
 
     container.classList.remove('hidden');
 
     animations.forEach(animation => {
       const button = document.createElement('button');
+
       button.textContent = animation.name;
 
-      button.addEventListener('click', () => {
+      button.addEventListener("click", () => {
         spineInstance.state.setAnimation(0, animation.name, false);
       });
 
@@ -151,14 +155,15 @@ export class SpineBenchmark {
 
   private createSkinButtons(spineInstance: Spine) {
     const skins = spineInstance.skeleton.data.skins;
+
     const container = document.getElementById('sidebarSkins')!;
     container.classList.remove('hidden');
 
-    skins.forEach(skin => {
-      const button = document.createElement('button');
+    skins.forEach((skin) => {
+      const button = document.createElement("button");
       button.textContent = skin.name;
 
-      button.addEventListener('click', () => {
+      button.addEventListener("click", () => {
         spineInstance.skeleton.setSkinByName(skin.name);
         spineInstance.skeleton.setSlotsToSetupPose();
       });
@@ -184,31 +189,30 @@ export class SpineBenchmark {
   // const spineInstance = new PIXI.spine.Spine(spineData);
   // const analysis = analyzeSpineSkeleton(spineInstance);
 
-  playSpineAnimationsInSequence(spineInstance: Spine) {
-    const animations = spineInstance.skeleton.data.animations;
-    let currentIndex = 0;
-    spineInstance.state.addListener({
-      complete: function(track) {
-        currentIndex++;
-        setTimeout(playNextAnimation, 250);
-        
-      }
-    });
-    function playNextAnimation() {
-      if (currentIndex < animations.length) {
-        const animation = animations[currentIndex];
-        
-        // setAfterElementContent('pixiContainer',animation.name)
-        document.getElementById('currentAnimation')!.innerHTML = `Animation: ${animation.name}`;
-        spineInstance.state.setAnimation(0, animation.name, false);
-        
-        
-      } else {
-        currentIndex = 0;
-        setTimeout(playNextAnimation, 250);
-      }
-    }
-    
-    playNextAnimation();
-  }
+  // playSpineAnimationsInSequence(spineInstance: Spine) {
+  //   const animations = spineInstance.skeleton.data.animations;
+  //   let currentIndex = 0;
+  //   spineInstance.state.addListener({
+  //     complete: function (track) {
+  //       currentIndex++;
+  //       setTimeout(playNextAnimation, 250);
+  //     },
+  //   });
+  //   function playNextAnimation() {
+  //     if (currentIndex < animations.length) {
+  //       const animation = animations[currentIndex];
+
+  //       // setAfterElementContent('pixiContainer',animation.name)
+  //       document.getElementById(
+  //         "currentAnimation"
+  //       )!.innerHTML = `Animation: ${animation.name}`;
+  //       spineInstance.state.setAnimation(0, animation.name, false);
+  //     } else {
+  //       currentIndex = 0;
+  //       setTimeout(playNextAnimation, 250);
+  //     }
+  //   }
+
+  //   playNextAnimation();
+  // }
 }
