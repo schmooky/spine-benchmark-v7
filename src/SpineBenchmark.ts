@@ -18,7 +18,7 @@ export class SpineBenchmark {
   private app: Application;
   private performanceMonitor: PerformanceMonitor;
   private spineAnalyzer: SpineAnalyzer;
-  private spineInstance: Spine | null = null; // Store the single Spine instance
+  private spineInstance: Spine | null = null;
   private isBinary = false;
 
   constructor(app: Application) {
@@ -130,40 +130,52 @@ export class SpineBenchmark {
     }, 250);
   }
 
-  // UI functions:
   private createAnimationButtons(spineInstance: Spine) {
     const animations = spineInstance.skeleton.data.animations;
-    const container = document.getElementById('sidebarAnimations')!;
+    const container = document.getElementById("optionsAnimations")!;
 
-    container.classList.remove('hidden');
+    const animationsTitle = document.createElement("h3");
+    animationsTitle.innerText = "animations";
+    container.appendChild(animationsTitle);
 
-    animations.forEach(animation => {
-      const button = document.createElement('button');
+    const buttonsContainer = document.createElement("div");
+    buttonsContainer.className = "buttonsContainer";
+    container.appendChild(buttonsContainer);
+
+    animations.forEach((animation) => {
+      const button = document.createElement("button");
       button.textContent = animation.name;
 
-      button.addEventListener('click', () => {
+      button.addEventListener("click", () => {
         spineInstance.state.setAnimation(0, animation.name, false);
       });
 
-      container.appendChild(button);
+      buttonsContainer.appendChild(button);
     });
   }
 
   private createSkinButtons(spineInstance: Spine) {
     const skins = spineInstance.skeleton.data.skins;
-    const container = document.getElementById('sidebarSkins')!;
-    container.classList.remove('hidden');
+    const container = document.getElementById("optionsSkins")!;
 
-    skins.forEach(skin => {
-      const button = document.createElement('button');
+    const skinsTitle = document.createElement("h3");
+    skinsTitle.innerText = "skins";
+    container.appendChild(skinsTitle);
+
+    const buttonsContainer = document.createElement("div");
+    buttonsContainer.className = "buttonsContainer";
+    container.appendChild(buttonsContainer);
+
+    skins.forEach((skin) => {
+      const button = document.createElement("button");
       button.textContent = skin.name;
 
-      button.addEventListener('click', () => {
+      button.addEventListener("click", () => {
         spineInstance.skeleton.setSkinByName(skin.name);
         spineInstance.skeleton.setSlotsToSetupPose();
       });
 
-      container.appendChild(button);
+      buttonsContainer.appendChild(button);
     });
   }
 
@@ -184,31 +196,30 @@ export class SpineBenchmark {
   // const spineInstance = new PIXI.spine.Spine(spineData);
   // const analysis = analyzeSpineSkeleton(spineInstance);
 
-  playSpineAnimationsInSequence(spineInstance: Spine) {
-    const animations = spineInstance.skeleton.data.animations;
-    let currentIndex = 0;
-    spineInstance.state.addListener({
-      complete: function(track) {
-        currentIndex++;
-        setTimeout(playNextAnimation, 250);
-        
-      }
-    });
-    function playNextAnimation() {
-      if (currentIndex < animations.length) {
-        const animation = animations[currentIndex];
-        
-        // setAfterElementContent('pixiContainer',animation.name)
-        document.getElementById('currentAnimation')!.innerHTML = `Animation: ${animation.name}`;
-        spineInstance.state.setAnimation(0, animation.name, false);
-        
-        
-      } else {
-        currentIndex = 0;
-        setTimeout(playNextAnimation, 250);
-      }
-    }
-    
-    playNextAnimation();
-  }
+  // playSpineAnimationsInSequence(spineInstance: Spine) {
+  //   const animations = spineInstance.skeleton.data.animations;
+  //   let currentIndex = 0;
+  //   spineInstance.state.addListener({
+  //     complete: function (track) {
+  //       currentIndex++;
+  //       setTimeout(playNextAnimation, 250);
+  //     },
+  //   });
+  //   function playNextAnimation() {
+  //     if (currentIndex < animations.length) {
+  //       const animation = animations[currentIndex];
+
+  //       // setAfterElementContent('pixiContainer',animation.name)
+  //       document.getElementById(
+  //         "currentAnimation"
+  //       )!.innerHTML = `Animation: ${animation.name}`;
+  //       spineInstance.state.setAnimation(0, animation.name, false);
+  //     } else {
+  //       currentIndex = 0;
+  //       setTimeout(playNextAnimation, 250);
+  //     }
+  //   }
+
+  //   playNextAnimation();
+  // }
 }
